@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Healthcare Chatbot</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+	<style>
+
+
+			body{
+				font-family: monospace;
+			}
+
+			#chatbox{
+				margin-left: auto;
+				margin-right: auto;
+				width: 40%;
+				margin-top: 50px;
+			}
+
+
+			.botText{
+				font-family: monospace;
+				font-size: 16px;
+				text-align: left;
+				line-height: 25px;
+				color:rgba(165, 42, 42, 0.842);
+			}
+
+
+			#userInput{
+				margin-left: auto;
+				margin-right: auto;
+				width: 80%;
+				text-align: center;
+				margin-top: 50px;
+			}
+
+
+
+			#textInput{
+				
+				border-bottom: 5px solid #050505;
+				font-family: monospace;
+				font-size: 16px;
+				width: 60%;
+				padding: 20px
+		
+			}
+
+
+			#buttonInput{
+				padding: 10px;
+				font-family: monospace;
+				font-size: 16px;
+				border: 3px solid lightcoral;
+				background-color: rgb(218, 109, 101);
+				color:papayawhip;
+				border-radius: 10px;
+			}
+
+			h1{
+				text-align: center;
+				color: rgb(231, 58, 58)
+			}
+
+			.userText{
+				text-align:right;
+			}
+	</style>
+
+</head>
+<body>
+
+<h1>Docbot</h1>
+<div> 
+	<div id="chatbox">
+		<p class="botText"><span>Hi there!</span></p>
+	</div>
+	<div id="userInput">
+		<input id="textInput" type="text" name="userMessage" placeholder="Type your message"/>
+		<input id="buttonInput" type="submit" value="Send"/>
+	</div>
+</div>
+
+
+<script>
+
+	function getUserResponse(){
+
+		var userText = $('#textInput').val();
+		var userHTML = "<p class='userText'>User: <span>"+userText+"</span></p>";
+		$('#textInput').val("");
+		$('#chatbox').append(userHTML);
+		document.getElementById("userInput").scrollIntoView({block:'start',behaviour:'smooth'});
+		$.get("/get", {userMessage: userText}).done(function(data){
+			var botHTML = "<p class='botText'>Chatbot: <span>"+data+"</span></p>"
+			$('#chatbox').append(botHTML);
+
+		});
+
+	}
+
+	$("#textInput").keypress(function(e){
+		if(e.which == 13){
+			getUserResponse();
+		}
+	});
+
+	$('#buttonInput').click(function(){
+		getUserResponse();
+	})
+
+		
+
+
+
+
+</script>
+
+</body>
+</html>
